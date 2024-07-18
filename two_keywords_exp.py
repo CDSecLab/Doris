@@ -6,7 +6,8 @@ from time import time
 import pickle
 
 from Utils.log import get_logger
-logger = get_logger('./log/two_keywords_exp.log')
+
+logger = get_logger("./log/two_keywords_exp.log")
 
 
 def cal_comm_cost(object):
@@ -23,7 +24,7 @@ def cal_comm_cost(object):
 def oxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
     keys = OXT.PARAMS()
     edb = OXT.EDB(n, p, k)
-    edb.EDBSetup(fpath,keys)
+    edb.EDBSetup(fpath, keys)
     times = 10
 
     for w1, id_num in w1_dct.items():
@@ -33,7 +34,7 @@ def oxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
 
         for _ in range(times):
             start = time()
-            stag = OXT.c_gen_stag(ws,keys)
+            stag = OXT.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -43,7 +44,7 @@ def oxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
             server_time.append(end - start)
 
             start = time()
-            xtoken = OXT.c_gen_xtoken(len(t), ws,keys)
+            xtoken = OXT.c_gen_xtoken(len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -65,7 +66,7 @@ def oxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
 def hxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
     keys = HXT.PARAMS()
     edb = HXT.EDB(n, p, k)
-    msk = edb.EDBSetup(fpath,keys)
+    msk = edb.EDBSetup(fpath, keys)
     times = 10
 
     for w1, id_num in w1_dct.items():
@@ -75,7 +76,7 @@ def hxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
 
         for _ in range(times):
             start = time()
-            stag = HXT.c_gen_stag(ws,keys)
+            stag = HXT.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -85,7 +86,7 @@ def hxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
             server_time.append(end - start)
 
             start = time()
-            xtoken = HXT.c_gen_xtoken(len(t), ws,keys)
+            xtoken = HXT.c_gen_xtoken(len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -117,7 +118,7 @@ def hxt_test(n, p, k, fpath, w1_dct: dict, w2: str):
 def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
     keys = ConjFilter_alter.PARAMS()
     edb = ConjFilter_alter.EDB(n, k)
-    edb.setup(fpath_wid, fpath_idw,keys)
+    edb.setup(fpath_wid, fpath_idw, keys)
     times = 10
 
     for w1, id_num in w1_dct.items():
@@ -127,7 +128,7 @@ def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
 
         for _ in range(times):
             start = time()
-            token = ConjFilter_alter.c_gen_token(ws,keys)
+            token = ConjFilter_alter.c_gen_token(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -151,7 +152,7 @@ def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
 def hxt_xf_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
     keys = Doris_XF.PARAMS()
     edb = Doris_XF.EDB(n, k)
-    msk = edb.setup(fpath_wid, fpath_idw,keys)
+    msk = edb.setup(fpath_wid, fpath_idw, keys)
     times = 10
 
     for w1, id_num in w1_dct.items():
@@ -161,7 +162,7 @@ def hxt_xf_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
 
         for _ in range(times):
             start = time()
-            stag = Doris_XF.c_gen_stag(ws,keys)
+            stag = Doris_XF.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -171,7 +172,7 @@ def hxt_xf_test(n, k, fpath_wid, fpath_idw, w1_dct: dict, w2: str):
             server_time.append(end - start)
 
             start = time()
-            xtoken = Doris_XF.c_gen_xtoken(msk, len(t), ws,keys)
+            xtoken = Doris_XF.c_gen_xtoken(msk, len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -199,7 +200,7 @@ if __name__ == "__main__":
     k = 2
     p = pow(10, -6)
     w2 = "auctions"
-    
+
     # --------------------- big database(128GB RAM) -------------------------
     # n = pow(10, 6)
     # fpath_wid = "./data/enron_inverted4.csv"
@@ -243,7 +244,7 @@ if __name__ == "__main__":
     exp
     """
     start = time()
-    logger.info(f"protocol,id_num,gen_token_time,token_size,server_time")
+    logger.info(f"protocol,id_num,gen_token_time(s),token_size(B),server_time(s)")
     # OXT
     oxt_test(n, p, k, fpath_wid, w1_dct, w2)
 
@@ -255,6 +256,6 @@ if __name__ == "__main__":
 
     # HXT_XF
     hxt_xf_test(n, k, fpath_wid, fpath_idw, w1_dct, w2)
-    
+
     end = time()
     print(f"two keywords exp use time:{end-start}")

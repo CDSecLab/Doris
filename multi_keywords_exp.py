@@ -6,7 +6,9 @@ from time import time
 import pickle
 
 from Utils.log import get_logger
-logger = get_logger('./log/multi_keywords_exp.log')
+
+logger = get_logger("./log/multi_keywords_exp.log")
+
 
 def cal_comm_cost(object):
     try:
@@ -22,7 +24,7 @@ def cal_comm_cost(object):
 def oxt_test(n, p, k, fpath, w_lst: list):
     keys = OXT.PARAMS()
     edb = OXT.EDB(n, p, k)
-    edb.EDBSetup(fpath,keys)
+    edb.EDBSetup(fpath, keys)
     times = 10
 
     for q in range(2, len(w_lst) + 1, 2):
@@ -32,7 +34,7 @@ def oxt_test(n, p, k, fpath, w_lst: list):
 
         for _ in range(times):
             start = time()
-            stag = OXT.c_gen_stag(ws,keys)
+            stag = OXT.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -42,7 +44,7 @@ def oxt_test(n, p, k, fpath, w_lst: list):
             server_time.append(end - start)
 
             start = time()
-            xtoken = OXT.c_gen_xtoken(len(t), ws,keys)
+            xtoken = OXT.c_gen_xtoken(len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -64,7 +66,7 @@ def oxt_test(n, p, k, fpath, w_lst: list):
 def hxt_test_pos_set(n, p, k, fpath, w_lst: list):
     keys = HXT.PARAMS()
     edb = HXT.EDB(n, p, k)
-    msk = edb.EDBSetup(fpath,keys)
+    msk = edb.EDBSetup(fpath, keys)
     times = 10
 
     for q in range(2, len(w_lst) + 1, 2):
@@ -74,7 +76,7 @@ def hxt_test_pos_set(n, p, k, fpath, w_lst: list):
 
         for _ in range(times):
             start = time()
-            stag = HXT.c_gen_stag(ws,keys)
+            stag = HXT.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -84,7 +86,7 @@ def hxt_test_pos_set(n, p, k, fpath, w_lst: list):
             server_time.append(end - start)
 
             start = time()
-            xtoken = HXT.c_gen_xtoken(len(t), ws,keys)
+            xtoken = HXT.c_gen_xtoken(len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -116,7 +118,7 @@ def hxt_test_pos_set(n, p, k, fpath, w_lst: list):
 def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w_lst: list):
     keys = ConjFilter_alter.PARAMS()
     edb = ConjFilter_alter.EDB(n, k)
-    edb.setup(fpath_wid, fpath_idw,keys)
+    edb.setup(fpath_wid, fpath_idw, keys)
     times = 10
 
     for q in range(2, len(w_lst) + 1, 2):
@@ -126,7 +128,7 @@ def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w_lst: list):
 
         for _ in range(times):
             start = time()
-            token = ConjFilter_alter.c_gen_token(ws,keys)
+            token = ConjFilter_alter.c_gen_token(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -150,7 +152,7 @@ def conjFilter_alter_test(n, k, fpath_wid, fpath_idw, w_lst: list):
 def hxt_xf_test(n, k, fpath_wid, fpath_idw, w_lst: list):
     keys = Doris_XF.PARAMS()
     edb = Doris_XF.EDB(n, k)
-    msk = edb.setup(fpath_wid, fpath_idw,keys)
+    msk = edb.setup(fpath_wid, fpath_idw, keys)
     times = 10
 
     for q in range(2, len(w_lst) + 1, 2):
@@ -160,7 +162,7 @@ def hxt_xf_test(n, k, fpath_wid, fpath_idw, w_lst: list):
 
         for _ in range(times):
             start = time()
-            stag = Doris_XF.c_gen_stag(ws,keys)
+            stag = Doris_XF.c_gen_stag(ws, keys)
             end = time()
             gen_token_time.append(end - start)
 
@@ -170,7 +172,7 @@ def hxt_xf_test(n, k, fpath_wid, fpath_idw, w_lst: list):
             server_time.append(end - start)
 
             start = time()
-            xtoken = Doris_XF.c_gen_xtoken(msk, len(t), ws,keys)
+            xtoken = Doris_XF.c_gen_xtoken(msk, len(t), ws, keys)
             end = time()
             gen_token_time[-1] += end - start
 
@@ -210,14 +212,25 @@ if __name__ == "__main__":
     fpath_wid = "./data/wid.csv"
     fpath_idw = "./data/idw.csv"
     # |DB('market')|: 2878
-    ws_lst = ['market', 'order', 'market', 'prices', 'online',
-              'level', 'access', 'customers', 'news', 'city', 'number']
+    ws_lst = [
+        "market",
+        "order",
+        "market",
+        "prices",
+        "online",
+        "level",
+        "access",
+        "customers",
+        "news",
+        "city",
+        "number",
+    ]
 
     """
     exp
     """
     start = time()
-    logger.info(f"protocol,q_num,gen_token_time,token_size,server_time")
+    logger.info(f"protocol,q_num,gen_token_time(s),token_size(B),server_time(s)")
     # OXT
     oxt_test(n, p, k, fpath_wid, ws_lst)
 
@@ -229,6 +242,6 @@ if __name__ == "__main__":
 
     # HXT_XF
     hxt_xf_test(n, k, fpath_wid, fpath_idw, ws_lst)
-    
+
     end = time()
     print(f"multi keywords exp use time:{end-start}")
