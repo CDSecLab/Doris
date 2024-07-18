@@ -244,4 +244,4 @@ if __name__ == "__main__":
     hxt_xf_test(n, k, fpath_wid, fpath_idw, ws_lst)
 
     end = time()
-    print(f"multi keywords exp use time:{end-start}")
+    print(f"multi keywords exp use time:{end-start} s")

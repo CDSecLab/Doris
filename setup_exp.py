@@ -223,4 +223,4 @@ if __name__ == "__main__":
     Doris_xf_enron_enwiki()
 
     end = time()
-    print(f"setup exp use time:{end-start}")
+    print(f"setup exp use time:{end-start} s")

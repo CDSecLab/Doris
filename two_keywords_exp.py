@@ -258,4 +258,4 @@ if __name__ == "__main__":
     hxt_xf_test(n, k, fpath_wid, fpath_idw, w1_dct, w2)
 
     end = time()
-    print(f"two keywords exp use time:{end-start}")
+    print(f"two keywords exp use time:{end-start} s")
