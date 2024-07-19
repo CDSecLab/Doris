@@ -7,8 +7,9 @@ from Utils.fileUtils import *
 import pickle
 
 from Utils.log import get_logger
-logger1 = get_logger('./log/tools_enc_exp.log')
-logger2 = get_logger('./log/tools_query_exp.log')
+
+logger1 = get_logger("./log/tools_enc_exp.log")
+logger2 = get_logger("./log/tools_query_exp.log")
 
 """
 Testing the time consumption and storage of the encrypted set Y
@@ -131,7 +132,7 @@ if __name__ == "__main__":
     """
     enc_test
     """
-    logger1.info("tool_name,n,enc_time,ct_size")
+    logger1.info("tool_name,n,enc_time(s),ct_size(B)")
     # universal set: 10^2->10^6
     Y_size_lst = [pow(10, i) for i in range(2, 7)]
     for n in Y_size_lst:
@@ -140,10 +141,10 @@ if __name__ == "__main__":
     """
     keygen_query_test
     """
-    logger2.info("tool_name,n,m,key_gen_time,key_size,query_time")
+    logger2.info("tool_name,n,m,key_gen_time(s),key_size(B),query_time(s)")
     # subset: 1000-7000
     X_size_lst = [i * 1000 for i in range(1, 8)]
     keyGen_and_query_test(pow(10, 4), X_size_lst)
 
-    end=time()
-    print(f"tools exp use time:{end-start}")
+    end = time()
+    print(f"tools exp use time:{end-start} s")
