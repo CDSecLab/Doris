@@ -45,6 +45,7 @@ This repo shows the constructions of OXT [1], HXT[2], ConjFilter[3] and Doris[4]
 ├── README.md
 ├── requirements.txt
 |
+| // the constructions of OXT, HXT, ConjFilter and Doris
 ├── ConjFilter_alter.py // ConjFilter that support single keyword search
 ├── ConjFilter_ori.py // ConjFilter original scheme
 ├── Doris_XF.py
@@ -76,6 +77,7 @@ This repo shows the constructions of OXT [1], HXT[2], ConjFilter[3] and Doris[4]
 │   ├── pbcUtils.py
 │   └── test // examples and tests of tools
 |
+| // experiment
 ├── multi_keywords_exp.py
 ├── setup_exp.py
 ├── tools_exp.py
@@ -95,7 +97,7 @@ python3 ConjFilter_alter.py
 python3 Doris_XF.py
 ```
 
-- Test whether the environment is configured successfully and whether the four protocols can run normally
+- Test whether the environment is configured successfully and run four protocols
 
 ### tools experiment
 
@@ -106,8 +108,9 @@ python3 tools_exp.py
 - This demo compares the storage and query overhead of the two tools
     - SHVE in HXT[2]: `Utils/SHVE.py`
     - SSPE in Doris[4]: `Utils/SSPE_XF.py`
-- output log files to `log/tools_enc_exp.log`,`log/tools_query_exp.log` 
-- use about 5-min, 8-GB RAM
+- Log output to `log/tools_enc_exp.log`,`log/tools_query_exp.log` 
+- use about 5 min, 8 GB RAM
+- If `FileNotFoundError` appears, create a folder `log` in the project root directory
 
 
 ### setup experiment
@@ -120,8 +123,8 @@ python3 setup_exp.py
 - running on both large and small databases
     - enron database
     - enwiki database
-- output log files to `log/setup_enron_exp.log`,`log/setup_enwiki_exp.log` 
-- use about 30-min, 8-GB RAM
+- Log output to `log/setup_enron_exp.log`,`log/setup_enwiki_exp.log` 
+- use about 30 min, 8 GB RAM
 
 
 ### two-keyword experiment
@@ -132,8 +135,8 @@ python3 two_keywords_exp.py
 
 - The demo compares the computing overhead and communication overhead of the four schemes in the query of two keywords
 - Since the query time in this experiment is only related to the number of documents corresponding to $w_1$, a small database can be simulated for the experiment to prevent memory overflow
-- output log files to `log/two_keywords_exp.log`
-- use about 20-min
+- Log output to `log/two_keywords_exp.log`
+- use about 20 min
 
 ### multi-keyword experiment
 
@@ -143,8 +146,8 @@ python3 multi_keywords_exp.py
 
 - Fixed w1, changed the number of query keywords, and compared the computing overhead and communication overhead of the four schemes
 - Same as the two-keyword experiment, we used a small dataset to simulate the original dataset
-- output log files to `log/multi_keywords_exp.log`
-- use about 50-min
+- Log output to `log/multi_keywords_exp.log`
+- use about 50 min
 
 ## Contact Us
 

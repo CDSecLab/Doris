@@ -20,7 +20,7 @@ class TSet:
         k: expansion factor
         '''
         self._cal_BS(n, k)
-        self.t_set = [[(0, 0)]*self.S for _ in range(self.B)]
+        self.t_set = [[b""]*self.S for _ in range(self.B)]
 
     def _cal_BS(self, n: int, k: int):
         N = n*k
@@ -38,9 +38,9 @@ class TSet:
     # TSet[b]: whether the corresponding list is free
     def _free_b(self, b: int):
         l_b = self.t_set[b]
-        while (0, 0) in l_b:
+        while b"" in l_b:
             j = random.randint(0, self.S-1)
-            if l_b[j] == (0, 0):
+            if l_b[j] == b"":
                 return j
         else:
             raise Exception("insufficient space")
@@ -63,7 +63,7 @@ class TSet:
                 s = bytearray(s)
                 s.insert(0, beta)
                 value = self._xor(s, h.K)
-                self.t_set[h.b][j] = (h.L, value)
+                self.t_set[h.b][j] = h.L+value
         return kt
 
     def retrive(self, stag: bytes):
@@ -72,11 +72,11 @@ class TSet:
         i = 1
         while beta == 1:
             h = self._hash_func(stag, i)
-            for label, value in self.t_set[h.b]:
-                if not label:
+            for lv in self.t_set[h.b]:
+                if not lv:
                     continue
-                if label == h.L:
-                    s = self._xor(value, h.K)
+                if lv[:8] == h.L:
+                    s = self._xor(lv[8:], h.K)
                     beta = s[0]
                     t.append(s[1:])
             i += 1
@@ -95,6 +95,6 @@ def cal_size(tset: TSet) -> int:
     size = 0
     for pair_lst in tset.t_set:
         for pair in pair_lst:
-            if pair != (0, 0):
-                size += (len(pair[0])+len(pair[1]))
+            if pair != b"":
+                size += len(pair)
     return size

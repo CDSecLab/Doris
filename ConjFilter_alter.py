@@ -2,11 +2,12 @@
 ConjFilter that support single keyword search
 """
 
+import pickle
 from Crypto.Random import get_random_bytes
 from typing import List
 import struct
 from Utils.cryptoUtils import prf, AES_enc, AES_dec
-from Utils.TSet import TSet, genStag
+from Utils.TSet import TSet, cal_size, genStag
 from Utils.fileUtils import read_index
 from dataclasses import dataclass
 
@@ -165,6 +166,14 @@ if __name__ == "__main__":
     edb.setup(f_wid, f_idw,keys)
     end = time()
     print(f"edb setup: {end-start} s")
+    tset_size = cal_size(edb.EMM)
+    print(f"tset size(cal lenth): {tset_size/1024} KB")
+    tset_size = len(pickle.dumps(edb.EMM))
+    print(f"tset size(dump)     : {tset_size/1024} KB")
+    xset_size = len(edb.X) *32
+    print(f"xset size(cal lenth): {xset_size/1024} KB")
+    xset_size = len(pickle.dumps(edb.X))
+    print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process

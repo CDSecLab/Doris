@@ -1,7 +1,8 @@
+import pickle
 from Crypto.Random import get_random_bytes
 from typing import List
 from Utils.cryptoUtils import prf, AES_enc, AES_dec
-from Utils.TSet import TSet, genStag
+from Utils.TSet import TSet, cal_size, genStag
 from Utils.SSPE_XF import SSPE_XF, MSK
 from Utils.fileUtils import read_index
 from dataclasses import dataclass
@@ -154,6 +155,14 @@ if __name__ == "__main__":
     msk = edb.setup(f_wid, f_idw,keys)
     end = time()
     print(f"edb setup: {end-start} s")
+    tset_size = cal_size(edb.tset)
+    print(f"tset size(cal lenth): {tset_size/1024} KB")
+    tset_size = len(pickle.dumps(edb.tset))
+    print(f"tset size(dump)     : {tset_size/1024} KB")
+    xset_size = len(edb.ct) *32
+    print(f"xset size(cal lenth): {xset_size/1024} KB")
+    xset_size = len(pickle.dumps(edb.ct))
+    print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process

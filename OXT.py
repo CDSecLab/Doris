@@ -149,6 +149,7 @@ def c_decrypt_e(es: List[bytes], ws: List[str], keys: PARAMS):
 
 if __name__ == "__main__":
     from time import time
+    import pickle
 
     """
     test case
@@ -171,7 +172,13 @@ if __name__ == "__main__":
     end = time()
     print(f"edb setup: {end-start} s")
     tset_size = cal_size(edb.tset)
-    print(f"tset size: {tset_size} bytes")
+    print(f"tset size(cal lenth): {tset_size/1024} KB")
+    tset_size = len(pickle.dumps(edb.tset))
+    print(f"tset size(dump)     : {tset_size/1024} KB")
+    xset_size = len(edb.xset) // 8
+    print(f"xset size(cal lenth): {xset_size/1024} KB")
+    xset_size = len(pickle.dumps(edb.xset))
+    print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process
