@@ -171,14 +171,14 @@ if __name__ == "__main__":
     edb.EDBSetup(filename, keys)
     end = time()
     print(f"edb setup: {end-start} s")
-    tset_size = cal_size(edb.tset)
-    print(f"tset size(cal lenth): {tset_size/1024} KB")
-    tset_size = len(pickle.dumps(edb.tset))
-    print(f"tset size(dump)     : {tset_size/1024} KB")
-    xset_size = len(edb.xset) // 8
-    print(f"xset size(cal lenth): {xset_size/1024} KB")
-    xset_size = len(pickle.dumps(edb.xset))
-    print(f"xset size(dump)     : {xset_size/1024} KB")
+    # tset_size = cal_size(edb.tset)
+    # print(f"tset size(cal lenth): {tset_size/1024} KB")
+    # tset_size = len(pickle.dumps(edb.tset))
+    # print(f"tset size(dump)     : {tset_size/1024} KB")
+    # xset_size = len(edb.xset) // 8
+    # print(f"xset size(cal lenth): {xset_size/1024} KB")
+    # xset_size = len(pickle.dumps(edb.xset))
+    # print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process

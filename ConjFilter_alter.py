@@ -27,7 +27,7 @@ class EDB:
         self.EMM = TSet(n, k)  # tset
         self.X = set()  # xset
 
-    def setup(self, fpath_wid: str, fpath_idw: str, keys:PARAMS):
+    def setup(self, fpath_wid: str, fpath_idw: str, keys: PARAMS):
         MM = dict()
 
         dct_wid = read_index(fpath_wid)
@@ -47,7 +47,7 @@ class EDB:
                 t.append(element)
                 # XSet
                 # The rest of the w under that id
-                ws = dct_idw.get(id).copy() # Copy to prevent the w from being deleted
+                ws = dct_idw.get(id).copy()  # Copy to prevent the w from being deleted
                 ws.remove(word_a)
                 for word_b in ws:
                     kx_ab = prf(keys.kx, word_a + word_b)
@@ -62,7 +62,7 @@ Complete search process
 """
 
 
-def search(ws: List[str], edb: EDB,keys: PARAMS) -> List[int]:
+def search(ws: List[str], edb: EDB, keys: PARAMS) -> List[int]:
     # token
     stag = genStag(keys.msk, ws[0])
     k_enc_w1 = prf(keys.kp, ws[0])
@@ -104,7 +104,7 @@ class TOKEN:
     kxs: List[bytes]
 
 
-def c_gen_token(ws: List[str],keys: PARAMS) -> TOKEN:
+def c_gen_token(ws: List[str], keys: PARAMS) -> TOKEN:
     stag = genStag(keys.msk, ws[0])
     k_enc_w1 = prf(keys.kp, ws[0])
     kxs = []
@@ -139,13 +139,14 @@ def s_search(token: TOKEN, edb: EDB) -> List[bytes]:
     return enc_res
 
 
-def c_resolve(enc_res: List[bytes],keys: PARAMS):
+def c_resolve(enc_res: List[bytes], keys: PARAMS):
     res = [AES_dec(keys.kenc, e) for e in enc_res]
     return res
 
 
 if __name__ == "__main__":
     from time import time
+
     """
     test case
     """
@@ -163,29 +164,29 @@ if __name__ == "__main__":
     start = time()
     keys = PARAMS()
     edb = EDB(n, k)
-    edb.setup(f_wid, f_idw,keys)
+    edb.setup(f_wid, f_idw, keys)
     end = time()
     print(f"edb setup: {end-start} s")
-    tset_size = cal_size(edb.EMM)
-    print(f"tset size(cal lenth): {tset_size/1024} KB")
-    tset_size = len(pickle.dumps(edb.EMM))
-    print(f"tset size(dump)     : {tset_size/1024} KB")
-    xset_size = len(edb.X) *32
-    print(f"xset size(cal lenth): {xset_size/1024} KB")
-    xset_size = len(pickle.dumps(edb.X))
-    print(f"xset size(dump)     : {xset_size/1024} KB")
+    # tset_size = cal_size(edb.EMM)
+    # print(f"tset size(cal lenth): {tset_size/1024} KB")
+    # tset_size = len(pickle.dumps(edb.EMM))
+    # print(f"tset size(dump)     : {tset_size/1024} KB")
+    # xset_size = len(edb.X) *32
+    # print(f"xset size(cal lenth): {xset_size/1024} KB")
+    # xset_size = len(pickle.dumps(edb.X))
+    # print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process
     """
-    inds = search(ws, edb,keys)
+    inds = search(ws, edb, keys)
     print(inds)
 
     """
     Each step of the search process
     """
     start = time()
-    token = c_gen_token(ws,keys)
+    token = c_gen_token(ws, keys)
     end = time()
     print(f"gen token: {end-start} s")
 
@@ -195,7 +196,7 @@ if __name__ == "__main__":
     print(f"search: {end-start} s")
 
     start = time()
-    res = c_resolve(enc_res,keys)
+    res = c_resolve(enc_res, keys)
     end = time()
     print(f"dec to get res: {end-start} s")
     print(f"res:{res}")

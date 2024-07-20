@@ -14,6 +14,7 @@ class PARAMS:
     kx: bytes = get_random_bytes(16)
     kt: bytes = None
 
+
 sspe = SSPE_XF()
 
 
@@ -22,12 +23,12 @@ class EDB:
         self.tset = TSet(n, k)
         self.ct = None  # sspe
 
-    def setup(self, fpath_wid: str, fpath_idw: str,keys:PARAMS) -> MSK:
+    def setup(self, fpath_wid: str, fpath_idw: str, keys: PARAMS) -> MSK:
         dct_wid = read_index(fpath_wid)
         dct_idw = read_index(fpath_idw)
 
         T = dict()
-        xset = set() 
+        xset = set()
 
         # Each keyword
         for w, ids in dct_wid.items():
@@ -65,7 +66,7 @@ Complete search process
 """
 
 
-def search(msk: MSK, ws: List[str], edb: EDB,keys:PARAMS) -> List[int]:
+def search(msk: MSK, ws: List[str], edb: EDB, keys: PARAMS) -> List[int]:
     # Tset
     w1 = ws[0]
     ke = prf(keys.ke, w1)
@@ -92,7 +93,7 @@ every step
 """
 
 
-def c_gen_stag(ws: List[str],keys:PARAMS):
+def c_gen_stag(ws: List[str], keys: PARAMS):
     return genStag(keys.kt, ws[0])
 
 
@@ -100,7 +101,7 @@ def s_retrive_stag(tset: TSet, stag: bytes):
     return tset.retrive(stag)
 
 
-def c_gen_xtoken(msk: MSK, t_len: int, ws: List[str],keys:PARAMS):
+def c_gen_xtoken(msk: MSK, t_len: int, ws: List[str], keys: PARAMS):
     xtoken = []
     w1 = ws[0]
     for i in range(t_len):
@@ -126,7 +127,7 @@ def s_get_es(xtoken, t, ct) -> List[bytes]:
     return es
 
 
-def c_decrypt_e(es: List[bytes], ws: List[str],keys:PARAMS):
+def c_decrypt_e(es: List[bytes], ws: List[str], keys: PARAMS):
     ke = prf(keys.ke, ws[0])
     res = [AES_dec(ke, e) for e in es]
     return res
@@ -152,29 +153,29 @@ if __name__ == "__main__":
     start = time()
     keys = PARAMS()
     edb = EDB(n, k)
-    msk = edb.setup(f_wid, f_idw,keys)
+    msk = edb.setup(f_wid, f_idw, keys)
     end = time()
     print(f"edb setup: {end-start} s")
-    tset_size = cal_size(edb.tset)
-    print(f"tset size(cal lenth): {tset_size/1024} KB")
-    tset_size = len(pickle.dumps(edb.tset))
-    print(f"tset size(dump)     : {tset_size/1024} KB")
-    xset_size = len(edb.ct) *32
-    print(f"xset size(cal lenth): {xset_size/1024} KB")
-    xset_size = len(pickle.dumps(edb.ct))
-    print(f"xset size(dump)     : {xset_size/1024} KB")
+    # tset_size = cal_size(edb.tset)
+    # print(f"tset size(cal lenth): {tset_size/1024} KB")
+    # tset_size = len(pickle.dumps(edb.tset))
+    # print(f"tset size(dump)     : {tset_size/1024} KB")
+    # xset_size = len(edb.ct) *32
+    # print(f"xset size(cal lenth): {xset_size/1024} KB")
+    # xset_size = len(pickle.dumps(edb.ct))
+    # print(f"xset size(dump)     : {xset_size/1024} KB")
 
     """
     Complete search process
     """
-    inds = search(msk, ws, edb,keys)
+    inds = search(msk, ws, edb, keys)
     print(inds)
 
     """
     Each step of the search process
     """
     start = time()
-    stag = c_gen_stag(ws,keys)
+    stag = c_gen_stag(ws, keys)
     end = time()
     print(f"gen stag: {end-start} s")
 
@@ -184,7 +185,7 @@ if __name__ == "__main__":
     print(f"retrive stag: {end-start} s")
 
     start = time()
-    xtoken = c_gen_xtoken(msk, len(t), ws,keys)
+    xtoken = c_gen_xtoken(msk, len(t), ws, keys)
     end = time()
     print(f"gen xtoken: {end-start} s")
 
@@ -194,7 +195,7 @@ if __name__ == "__main__":
     print(f"get es: {end-start} s")
 
     start = time()
-    res = c_decrypt_e(es, ws,keys)
+    res = c_decrypt_e(es, ws, keys)
     end = time()
     print(f"dec to get res: {end-start} s")
     print(f"res:{res}")

@@ -113,14 +113,13 @@ python3 tools_exp.py
 - use about 5 min, 8 GB RAM
 - If `FileNotFoundError` appears, create a folder `log` in the project root directory
 
-
 ### setup experiment
 
 ```sh
 python3 setup_exp.py
 ```
 
-- This demo compares the storage overhead and computing overhead consumed by the four schemes when creating EDBs
+- The demo evaluates the mentioned schemes in terms of  storage and computation cost at setup phase
 - running on both large and small databases
     - enron database
     - enwiki database
@@ -134,10 +133,9 @@ python3 setup_exp.py
 python3 two_keywords_exp.py
 ```
 
-- The demo compares the computing overhead and communication overhead of the four schemes in the query of two keywords
-- Since the query time in this experiment is only related to the number of documents corresponding to $w_1$, a small database can be simulated for the experiment to prevent memory overflow
+- The demo evaluates the computation cost and communication overhead of the four schemes for two keywords query
 - Log output to `log/two_keywords_exp.log`
-- use about 20 min
+- use about 20 min (include the setup time and total query time)
 
 ### multi-keyword experiment
 
@@ -145,15 +143,14 @@ python3 two_keywords_exp.py
 python3 multi_keywords_exp.py
 ```
 
-- Fixed w1, changed the number of query keywords, and compared the computing overhead and communication overhead of the four schemes
-- Same as the two-keyword experiment, we used a small dataset to simulate the original dataset
+- Fix w1, change the number of queried keywords, and compare the computation cost and communication size of the four schemes
 - Log output to `log/multi_keywords_exp.log`
-- use about 50 min
+- use about 50 min (include the setup time and total query time)
 
 ## Contact Us
 
-- ylwang@xupt.edu.cn
-- jfwang@xidian.edu.cn
+- Yunling Wang, ylwang@xupt.edu.cn
+- Jianfeng Wang, jfwang@xidian.edu.cn
 
 
 ## Reference
@@ -165,4 +162,3 @@ python3 multi_keywords_exp.py
 [3]. Sarvar Patel, Giuseppe Persiano, Joon Young Seo, Kevin Yeo: Efficient Boolean Search over Encrypted Data with Reduced Leakage. ASIACRYPT 2021: 577-607.
 
 [4]. Yunling Wang, Shi-Feng Sun, Jianfeng Wang, Xiaofeng Chen, Joseph K.Liu, and Dawu Gu. Practical Non-interactive Encrypted Conjunctive Search with Leakage Suppression. CCS 2024.
-
