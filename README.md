@@ -31,8 +31,9 @@ This repo shows the constructions of OXT [1], HXT[2], ConjFilter[3] and Doris[4]
     sudo pip3 install .
     cd ..
     ```
-- install additional python libraries
+- install source code and additional python libraries
     ```sh
+    git clone https://github.com/CDSecLab/Doris.git
     cd Doris
     pip3 install -r requirements.txt 
     ```
